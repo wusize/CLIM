@@ -149,8 +149,7 @@ core.*
 
 # Allow
 !src/evaluation/misc/results_dbs/*
-data/
+data/coco
+data/lvis
 checkpoints/
-F-ViT/data
-F-ViT/work_dirs
 logs
