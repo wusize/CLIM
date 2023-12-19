@@ -314,24 +314,7 @@ class ModifiedResNet(nn.Module):
             denormed_boxes.append(new_boxes)
         return denormed_boxes
 
-    def _extract_roi_features_v1(self, x, normed_boxes, **kwargs):
-        with torch.no_grad():    # TODO: speed up trick
-            x = self.stem(x)
-            x = self.layer1(x)
-            x = self.layer2(x)
-            x = self.layer3(x)
-        x = self.layer4(x)
-
-        tar_size = self.attnpool_input_size
-        # TODO: debug
-        roi_feats = roi_align(x, self._denormalize_boxes(normed_boxes, x),
-                              (tar_size, tar_size), 1.0, -1, True)
-
-        roi_feats = self.attnpool(roi_feats)
-
-        return roi_feats
-
-    def extract_roi_features(self, x, normed_boxes, extract_type='v1'):
+    def extract_roi_features(self, x, normed_boxes, extract_type='v2'):
         if extract_type == 'v1':
             return self._extract_roi_features_v1(x, normed_boxes)
         else:
@@ -360,7 +343,7 @@ class ModifiedResNet(nn.Module):
 
         return features
 
-    def _extract_roi_features_v2(self, x, normed_boxes, **kwargs):
+    def _extract_roi_features_v1(self, x, normed_boxes, **kwargs):
         x = self.stem(x)
         x = self.layer1(x)
         x = self.layer2(x)
@@ -373,21 +356,22 @@ class ModifiedResNet(nn.Module):
         roi_feats = roi_align(x, self._denormalize_boxes(normed_boxes, x),
                               (1, 1), 1.0, -1, True)[:, :, 0, 0]
         return roi_feats
-    # def _extract_roi_features_v2(self, x, normed_boxes, **kwargs):
-    #     with torch.no_grad():   # TODO speed up trick
-    #         x = self.stem(x)
-    #         x = self.layer1(x)
-    #         x = self.layer2(x)
-    #         x = self.layer3(x)
-    #     tar_size = self.attnpool_input_size * 2
-    #     # TODO: debug
-    #     roi_feats = roi_align(x, self._denormalize_boxes(normed_boxes, x),
-    #                           (tar_size, tar_size), 1.0, -1, True)
-    #
-    #     roi_feats = self.layer4(roi_feats)
-    #     roi_feats = self.attnpool(roi_feats)
-    #
-    #     return roi_feats
+
+    def _extract_roi_features_v2(self, x, normed_boxes, **kwargs):
+        x = self.stem(x)
+        x = self.layer1(x)
+        x = self.layer2(x)
+        x = self.layer3(x)
+        x = self.layer4(x)
+
+        tar_size = self.attnpool_input_size
+        # TODO: debug
+        roi_feats = roi_align(x, self._denormalize_boxes(normed_boxes, x),
+                              (tar_size, tar_size), 1.0, -1, True)
+
+        roi_feats = self.attnpool(roi_feats)
+
+        return roi_feats
 
     def encode_dense(self, x, keep_shape=True):
         x = self.stem(x)
