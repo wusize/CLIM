@@ -344,10 +344,11 @@ class ModifiedResNet(nn.Module):
         return features
 
     def _extract_roi_features_v1(self, x, normed_boxes, **kwargs):
-        x = self.stem(x)
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x)
+        with torch.no_grad():
+            x = self.stem(x)
+            x = self.layer1(x)
+            x = self.layer2(x)
+            x = self.layer3(x)
         x = self.layer4(x)
 
         x = self.attnpool.forward_dense(x)
@@ -358,11 +359,12 @@ class ModifiedResNet(nn.Module):
         return roi_feats
 
     def _extract_roi_features_v2(self, x, normed_boxes, **kwargs):
-        x = self.stem(x)
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x)
-        x = self.layer4(x)
+        with torch.no_grad():
+            x = self.stem(x)
+            x = self.layer1(x)
+            x = self.layer2(x)
+            x = self.layer3(x)
+        x = self.layer4(x)    # only the last layer is finetuned in our implementation
 
         tar_size = self.attnpool_input_size
         # TODO: debug
