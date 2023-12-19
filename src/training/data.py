@@ -390,7 +390,7 @@ def get_dataset_fn(data_path, dataset_type):
     elif dataset_type == 'coco_detection':
         return get_coco_detection_dataset
     elif dataset_type == 'coco_caption':
-        return get_coco
+        return get_coco_caption_dataset
     else:
         raise ValueError(f"Unsupported dataset type: {dataset_type}")
 
