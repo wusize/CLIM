@@ -1,14 +1,14 @@
-# CLIPSelf: Vision Transformer Distills Itself for Open-Vocabulary Dense Prediction
+# CLIM: Contrastive Language-Image Mosaic for Region Representation
 ## Introduction
 
-This is an official release of the paper **CLIPSelf: Vision Transformer Distills Itself for Open-Vocabulary Dense Prediction**.
+This is an official release of the paper **CLIM: Contrastive Language-Image Mosaic for Region Representation**.
 
-> [**CLIPSelf: Vision Transformer Distills Itself for Open-Vocabulary Dense Prediction**](https://arxiv.org/abs/2310.01403),            
-> Size Wu, Wenwei Zhang, Lumin Xu, Sheng Jin, Xiangtai Li, Wentao Liu, Chen Change Loy            
-> [Bibetex](https://github.com/wusize/CLIPSelf#citation)
+> [**CLIM: Contrastive Language-Image Mosaic for Region Representation**](https://arxiv.org/abs/2312.11376),            
+> Size Wu, Wenwei Zhang, Lumin Xu, Sheng Jin, Wentao Liu, Chen Change Loy            
+> [Bibetex](https://github.com/wusize/CLIM#citation)
 
 
-## Installation
+## Application to CLIP
 
 The code for applying CLIM to CLIP model is adapted from [OpenCLIP-v2.16.0](https://github.com/mlfoundations/open_clip/tree/v2.16.0). Run the
 following command to install the package
@@ -77,7 +77,7 @@ CLIM/
 ```
 
 
-## Open-Vocabulary Object Detection
+## Application to Detic
 Go to the folder `CLIM/ovdet` and follow the instructions in this [README](F-ViT/README.md).
 
 ## License
@@ -86,10 +86,10 @@ This project is licensed under [NTU S-Lab License 1.0](LICENSE).
 ## Citation
 
 ```bibtex
-@article{wu2023clipself,
-    title={CLIPSelf: Vision Transformer Distills Itself for Open-Vocabulary Dense Prediction},
-    author={Size Wu and Wenwei Zhang and Lumin Xu and Sheng Jin and Xiangtai Li and Wentao Liu and Chen Change Loy},
-    journal={arXiv preprint arXiv:2310.01403},
+@article{wu2023clim,
+    title={CLIM: Contrastive Language-Image Mosaic for Region Representation},
+    author={Size Wu and Wenwei Zhang and Lumin Xu and Sheng Jin and Wentao Liu and Chen Change Loy},
+    journal={arXiv preprint arXiv:2312.11376},
     year={2023}
 }
 ```
