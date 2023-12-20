@@ -29,7 +29,6 @@ model = dict(
         stack_times=7,
         start_level=1,
         in_channels=[768, 768, 768, 768],
-        num_convs=2,
         norm_cfg=norm_cfg
     ),
     rpn_head=dict(
