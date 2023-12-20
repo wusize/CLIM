@@ -1,4 +1,4 @@
-_base_ = ['mmdet::_base_/models/faster-rcnn_r50_fpn.py'
+_base_ = ['mmdet::_base_/models/faster-rcnn_r50_fpn.py',
           'mmdet::_base_/default_runtime.py',
           '../../coco_ovd_base_lsj.py']
 

@@ -1,4 +1,4 @@
-_base_ = ['mmdet::_base_/models/mask-rcnn_r50_fpn.py'
+_base_ = ['mmdet::_base_/models/mask-rcnn_r50_fpn.py',
           '../../_base_/iter_based_runtime.py',
           '../../_base_/datasets/lvis_v1_ovd_base_lsj.py']
 
