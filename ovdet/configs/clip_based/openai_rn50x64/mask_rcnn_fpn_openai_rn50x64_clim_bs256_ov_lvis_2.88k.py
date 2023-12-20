@@ -14,6 +14,7 @@ model = dict(
         _delete_=True,
         model_name='RN50x64',
         cache_dir='checkpoints',
+        pretrained='checkpoints/openai_rn50x64_cc3m_clim.pt',
         roi_extractor=dict(
             type='SingleRoIExtractor',
             roi_layer=dict(type='RoIAlign', output_size=14,

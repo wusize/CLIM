@@ -21,6 +21,7 @@ model = dict(
         type='CLIPViT',
         model_name='ViT-B-16',
         cache_dir='checkpoints',
+        pretrained='checkpoints/openai_vitb16_coco_clim.pt',
         out_indices=[3, 5, 7, 11],
         roi_extractor=dict(
             type='SingleRoIExtractor',

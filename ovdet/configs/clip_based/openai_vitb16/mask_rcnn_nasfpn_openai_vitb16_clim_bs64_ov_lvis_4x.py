@@ -15,6 +15,7 @@ model = dict(
         model_name='ViT-B-16',
         cache_dir='checkpoints',
         out_indices=[3, 5, 7, 11],
+        pretrained='checkpoints/openai_vitb16_cc3m_clim.pt',
         roi_extractor=dict(
             type='SingleRoIExtractor',
             roi_layer=dict(type='RoIAlign', output_size=7,
