@@ -60,7 +60,7 @@ class FVLMConvFCBBoxHead(ConvFCBBoxHead):
             in_features=self.cls_last_dim, out_features=cls_embeddings.shape[1])
         self.fc_cls = MODELS.build(cls_predictor_cfg_)
 
-        class_weight = self.loss_cls.class_weight[:-1] + [0.0]
+        class_weight = self.loss_cls.class_weight[:-1] + [1.0]
         self.register_buffer('class_weight', torch.tensor(class_weight), persistent=False)
 
     def pred_cls_logits(self, region_embeddings, clip_embeddings=None):
