@@ -19,8 +19,9 @@ class FVLM(TwoStageDetector):
         """
         x = self.backbone(batch_inputs)
         if self.with_neck:
-            x[:self.neck.in_channels] = self.neck(x[:self.neck.in_channels])
-        return x[:self.neck.in_channels]
+            x = self.neck(x[:self.neck.num_ins])
+
+        return x
 
     def predict(self,
                 batch_inputs: Tensor,
@@ -30,9 +31,7 @@ class FVLM(TwoStageDetector):
         x = self.backbone(batch_inputs)
         clip_x = x[-1]
         if self.with_neck:
-            x = self.neck(x[:self.neck.in_channels])
-        else:
-            x = x[:self.neck.in_channels]
+            x = self.neck(x[:self.neck.num_ins])
 
         # If there are no pre-defined proposals, use RPN to get proposals
         if batch_data_samples[0].get('proposals', None) is None:
