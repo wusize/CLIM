@@ -100,7 +100,7 @@ class AttentionPool2d(nn.Module):
         return x[0], tokens
 
 
-@MODELS.register_module()
+# @MODELS.register_module()
 class CLIPResLayer4(BaseModule):
     def __init__(self, inplanes, planes, blocks, stride=1, freeze=True, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -125,7 +125,7 @@ class CLIPResLayer4(BaseModule):
         return self.layer4(x)
 
 
-@MODELS.register_module()
+# @MODELS.register_module()
 class CLIPResNet(BaseModule):
     """
     A ResNet class that is similar to torchvision's but contains the following changes:
@@ -205,7 +205,7 @@ class CLIPResNet(BaseModule):
             return x
 
 
-@MODELS.register_module()
+# @MODELS.register_module()
 class CLIPViT(BaseModule):
     def __init__(self,
                  input_resolution: int,
