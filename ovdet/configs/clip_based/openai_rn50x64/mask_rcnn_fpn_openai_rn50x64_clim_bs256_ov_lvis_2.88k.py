@@ -1,7 +1,7 @@
 _base_ = ['mmdet::_base_/models/mask-rcnn_r50_fpn.py',
           '../../_base_/iter_based_runtime.py',
           '../../_base_/datasets/lvis_v1_ovd_base_lsj.py']
-
+find_unused_parameters = True
 class_weight = 'data/metadata/lvis_v1_train_cat_norare_info.json'
 norm_cfg = dict(type='SyncBN', requires_grad=True)
 model = dict(
