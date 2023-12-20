@@ -4,6 +4,7 @@ image_size = (1024, 1024)
 
 # backend_args = None
 backend_args = dict(
+    _delete_=True,
     backend='petrel',
     path_mapping=dict({
         'data/lvis_v1/train2017': 's3://openmmlab/datasets/detection/coco/train2017',

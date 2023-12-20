@@ -6,6 +6,7 @@ image_size = (1024, 1024)
 
 # backend_args = None
 backend_args = dict(
+    _delete_=True,
     backend='petrel',
     path_mapping=dict({
         'data/coco': 's3://openmmlab/datasets/detection/coco'
