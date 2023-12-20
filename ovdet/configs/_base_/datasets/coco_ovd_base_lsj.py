@@ -2,7 +2,7 @@
 _base_ = 'mmdet::_base_/datasets/coco_detection.py'
 
 data_root = 'data/coco/'
-image_size = (640, 640)
+image_size = (1024, 1024)
 
 # backend_args = None
 backend_args = dict(
