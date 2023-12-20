@@ -179,6 +179,7 @@ if __name__ == '__main__':
     parser.add_argument('--out_path', default='metadata/coco_detection_openai_vitb16.npy')
     parser.add_argument('--pretrained', default='openai')
     parser.add_argument('--cache_dir', default='checkpoints')
+    parser.add_argument('--use_background', action="store_true", default=False)
 
     args = parser.parse_args()
 
@@ -192,6 +193,8 @@ if __name__ == '__main__':
     data = json.load(open(args.ann, 'r'))
     cat_names = [x['name'] for x in \
                  sorted(data['categories'], key=lambda x: x['id'])]
+    if args.use_background:
+        cat_names.append('background')
     out_path = args.out_path
     text_embeddings = build_text_embedding_lvis(cat_names, model, tokenizer)
     np.save(out_path, text_embeddings.cpu().numpy())
