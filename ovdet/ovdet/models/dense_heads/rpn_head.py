@@ -4,7 +4,7 @@ from typing import Optional
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch import Tensor
+from mmcv.cnn import ConvModule
 from mmcv.ops import batched_nms
 from mmengine.config import ConfigDict
 from mmengine.structures import InstanceData
@@ -17,6 +17,44 @@ from mmdet.structures.bbox import (empty_box_as, get_box_tensor,
 
 @MODELS.register_module()
 class CustomRPNHead(RPNHead):
+    def __init__(self,
+                 norm_cfg=None,
+                 *args,
+                 **kwargs):
+        self.norm_cfg = norm_cfg
+        super().__init__(*args, **kwargs)
+
+    def _init_layers(self) -> None:
+        """Initialize layers of the head."""
+        if self.num_convs > 1:
+            rpn_convs = []
+            for i in range(self.num_convs):
+                if i == 0:
+                    in_channels = self.in_channels
+                else:
+                    in_channels = self.feat_channels
+                # use ``inplace=False`` to avoid error: one of the variables
+                # needed for gradient computation has been modified by an
+                # inplace operation.
+                rpn_convs.append(
+                    ConvModule(
+                        in_channels,
+                        self.feat_channels,
+                        3,
+                        padding=1,
+                        norm_cfg=self.norm_cfg,
+                        inplace=False))
+            self.rpn_conv = nn.Sequential(*rpn_convs)
+        else:
+            self.rpn_conv = nn.Conv2d(
+                self.in_channels, self.feat_channels, 3, padding=1)
+        self.rpn_cls = nn.Conv2d(self.feat_channels,
+                                 self.num_base_priors * self.cls_out_channels,
+                                 1)
+        reg_dim = self.bbox_coder.encode_size
+        self.rpn_reg = nn.Conv2d(self.feat_channels,
+                                 self.num_base_priors * reg_dim, 1)
+
     # The official code of MMDet3.x in this part has bug when using AMP
     def _bbox_post_process(self,
                            results: InstanceData,
@@ -86,39 +124,3 @@ class CustomRPNHead(RPNHead):
             results_.labels = results.scores.new_zeros(0)
             results = results_
         return results
-
-
-@MODELS.register_module()
-class DetachRPNHead(CustomRPNHead):
-    def _init_layers(self):
-        super()._init_layers()
-        self.rpn_cls = nn.Sequential(nn.Conv2d(in_channels=self.feat_channels,
-                                               out_channels=self.feat_channels,
-                                               kernel_size=3,
-                                               stride=1,
-                                               padding=1),
-                                     nn.ReLU(),
-                                     nn.Conv2d(self.feat_channels,
-                                               self.num_base_priors * self.cls_out_channels,
-                                               1)
-                                     )
-
-    def forward_single(self, x):
-        """Forward feature of a single scale level.
-
-        Args:
-            x (Tensor): Features of a single scale level.
-
-        Returns:
-            tuple:
-                cls_score (Tensor): Cls scores for a single scale level \
-                    the channels number is num_base_priors * num_classes.
-                bbox_pred (Tensor): Box energies / deltas for a single scale \
-                    level, the channels number is num_base_priors * 4.
-        """
-        x = self.rpn_conv(x)
-        x = F.relu(x)
-        # In Baron, this is used to avoid suppression on novel categories
-        rpn_cls_score = self.rpn_cls(x.detach())
-        rpn_bbox_pred = self.rpn_reg(x)
-        return rpn_cls_score, rpn_bbox_pred

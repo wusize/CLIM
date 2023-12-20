@@ -1,1 +1,1 @@
-from .rpn_head import CustomRPNHead, DetachRPNHead
+from .rpn_head import CustomRPNHead
