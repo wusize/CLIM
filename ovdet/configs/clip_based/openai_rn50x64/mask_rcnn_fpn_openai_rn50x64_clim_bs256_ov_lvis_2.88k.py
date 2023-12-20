@@ -57,7 +57,7 @@ model = dict(
             ),
         ),
         mask_head=dict(
-            norm_cfg=norm_cfg, num_classes=1203)
+            norm_cfg=norm_cfg, class_agnostic=True, num_classes=1203)
     ),
     test_cfg=dict(
         rcnn=dict(

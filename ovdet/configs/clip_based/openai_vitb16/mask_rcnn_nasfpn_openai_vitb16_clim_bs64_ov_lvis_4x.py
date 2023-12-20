@@ -60,7 +60,9 @@ model = dict(
                 class_weight=class_weight,
                 bg_weight=0.9,
             ),
-        )
+        ),
+        mask_head=dict(
+            norm_cfg=norm_cfg, class_agnostic=True, num_classes=1203)
     ),
     test_cfg=dict(
         rcnn=dict(
