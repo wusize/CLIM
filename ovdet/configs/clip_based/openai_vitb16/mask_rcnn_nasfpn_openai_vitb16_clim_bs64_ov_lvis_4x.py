@@ -18,7 +18,7 @@ model = dict(
         pretrained='checkpoints/openai_vitb16_cc3m_clim.pt',
         roi_extractor=dict(
             type='SingleRoIExtractor',
-            roi_layer=dict(type='RoIAlign', output_size=7,
+            roi_layer=dict(type='RoIAlign', output_size=1,
                            sampling_ratio=0, use_torchvision=True),
             out_channels=512,
             featmap_strides=[16]),

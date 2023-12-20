@@ -9,7 +9,7 @@ class_weight = [1, 1, 1, 1, 0, 0, 1, 1, 1, 0,
                 0, 0, 1, 0, 1, 1, 1, 1, 1, 1,
                 1, 1, 0, 1, 1, 0, 1, 0, 0, 1,
                 0, 1, 1, 1, 1, 1, 0, 0, 1, 1,
-                1, 0, 1, 1, 1, 1, 0, 0, 0, 1] + [0.3]
+                1, 0, 1, 1, 1, 1, 0, 0, 0, 1] + [0.6]
 invalid_classes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                    1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -35,7 +35,7 @@ model = dict(
         out_indices=[3, 5, 7, 11],
         roi_extractor=dict(
             type='SingleRoIExtractor',
-            roi_layer=dict(type='RoIAlign', output_size=7,
+            roi_layer=dict(type='RoIAlign', output_size=1,
                            sampling_ratio=0, use_torchvision=True),
             out_channels=512,
             featmap_strides=[16]),
