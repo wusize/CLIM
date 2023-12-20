@@ -5,14 +5,13 @@ data_root = 'data/coco/'
 image_size = (1024, 1024)
 
 # backend_args = None
-backend_args = dict(
-    _delete_=True,
+image_backend_args = dict(
     backend='petrel',
     path_mapping=dict({
         'data/coco': 's3://openmmlab/datasets/detection/coco'
     }))
 train_pipeline = [
-    dict(type="LoadImageFromFile", backend_args=backend_args, to_float32=True),
+    dict(type="LoadImageFromFile", backend_args=image_backend_args, to_float32=True),
     dict(type="LoadAnnotations", with_bbox=True, with_mask=False),
     dict(
         type="RandomResize",
@@ -41,7 +40,7 @@ train_dataloader = dict(
 )
 
 test_pipeline = [
-    dict(type="LoadImageFromFile", backend_args=backend_args, to_float32=True),
+    dict(type="LoadImageFromFile", backend_args=image_backend_args, to_float32=True),
     dict(type="Resize", scale=image_size, keep_ratio=True),
     dict(type="Pad", size=image_size,
          pad_val=dict(img=(122.7709383, 116.7460125, 104.09373615), seg=255)),
