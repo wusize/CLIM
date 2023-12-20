@@ -23,6 +23,7 @@ class FVLMConvFCBBoxHead(ConvFCBBoxHead):
                  cls_temp=50.0,
                  learn_cls_temp=True,
                  cls_embeddings_path=None, bg_embedding='learn',
+                 invalid_classes=None,
                  *args, **kwargs):
         super(FVLMConvFCBBoxHead, self).__init__(*args, **kwargs)
         if learn_cls_temp:
@@ -35,6 +36,11 @@ class FVLMConvFCBBoxHead(ConvFCBBoxHead):
         assert self.with_cls
         assert self.reg_class_agnostic
         assert not self.custom_cls_channels
+
+        if invalid_classes is not None:
+            self.register_buffer('invalid_classes', torch.tensor(invalid_classes))
+        else:
+            self.invalid_classes = None
 
         cls_embeddings = torch.from_numpy(np.load(cls_embeddings_path)).float()
         self.learn_bg = False
@@ -84,10 +90,14 @@ class FVLMConvFCBBoxHead(ConvFCBBoxHead):
         if self.training:
             return cls_logits
         else:
+            if self.invalid_classes is not None:
+                cls_logits[:, self.invalid_classes > 0] = float('-inf')
             cls_scores = torch.softmax(cls_logits, dim=-1)
             assert clip_embeddings is not None
             clip_embeddings = F.normalize(clip_embeddings, p=2, dim=-1)
             clip_logits = self.clip_temp * clip_embeddings @ cls_embeddings.T
+            if self.invalid_classes is not None:
+                clip_logits[:, self.invalid_classes > 0] = float('-inf')
             clip_scores = torch.softmax(clip_logits, dim=-1)
 
             base_idx = self.class_weight > 0.0

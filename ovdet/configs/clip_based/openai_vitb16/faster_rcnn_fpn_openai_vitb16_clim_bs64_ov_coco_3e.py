@@ -10,6 +10,16 @@ class_weight = [1, 1, 1, 1, 0, 0, 1, 1, 1, 0,
                 1, 1, 0, 1, 1, 0, 1, 0, 0, 1,
                 0, 1, 1, 1, 1, 1, 0, 0, 1, 1,
                 1, 0, 1, 1, 1, 1, 0, 0, 0, 1] + [0.6]
+invalid_classes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+                   1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 1, 0, 1, 1, 0, 0, 1, 0,
+                   1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 1, 0, 0, 0, 0, 0, 1, 0,
+                   1, 0, 0, 0, 0, 0, 0, 1, 0, 0,
+                   0, 0, 0, 0, 0, 0, 0, 1, 1, 0] + [0]
+
+
 norm_cfg = dict(type='SyncBN', requires_grad=True)
 model = dict(
     type='FVLM',
@@ -50,9 +60,10 @@ model = dict(
             beta=0.8,
             clip_temp=75.0,
             cls_temp=50.0,
+            invalid_classes=invalid_classes,
             learn_cls_temp=True,
-            cls_embeddings_path="data/metadata/coco_openai_vitb16_hand_craft_with_background.npy",
-            bg_embedding='clip',
+            cls_embeddings_path="data/metadata/coco_openai_vitb16_hand_craft.npy",
+            bg_embedding='learn',
             loss_cls=dict(
                 type='CustomCrossEntropyLoss',
                 use_sigmoid=False,
