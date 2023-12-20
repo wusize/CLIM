@@ -33,7 +33,9 @@ model = dict(
         norm_cfg=norm_cfg
     ),
     rpn_head=dict(
-        type='CustomRPNHead', norm_cfg=norm_cfg
+        type='CustomRPNHead',
+        num_convs=2,
+        norm_cfg=norm_cfg
     ),
     roi_head=dict(
         type='FVLMStandardRoIHead',

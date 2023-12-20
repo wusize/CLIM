@@ -35,6 +35,7 @@ model = dict(
         in_channels=[768, 768, 768, 768],
         norm_cfg=norm_cfg
     ),
+    rpn_head=dict(num_convs=2),
     roi_head=dict(
         type='FVLMStandardRoIHead',
         bbox_head=dict(
