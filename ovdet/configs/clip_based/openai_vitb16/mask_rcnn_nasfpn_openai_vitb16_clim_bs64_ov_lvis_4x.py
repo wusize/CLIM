@@ -1,6 +1,6 @@
 _base_ = ['mmdet::_base_/models/mask-rcnn_r50_fpn.py',
           'mmdet::_base_/default_runtime.py',
-          '../../lvis_v1_ovd_base_lsj.py']
+          '../../_base_/datasets/lvis_v1_ovd_base_lsj.py']
 
 class_weight = 'data/metadata/lvis_v1_train_cat_norare_info.json'
 norm_cfg = dict(type='SyncBN', requires_grad=True)
