@@ -28,7 +28,7 @@ class FVLM(TwoStageDetector):
                 rescale: bool = True) -> SampleList:
         assert self.with_bbox, 'Bbox head must be implemented.'
         x = self.backbone(batch_inputs)
-        clip_x = x[self.neck.in_channels]
+        clip_x = x[-1]
         if self.with_neck:
             x = self.neck(x[:self.neck.in_channels])
         else:

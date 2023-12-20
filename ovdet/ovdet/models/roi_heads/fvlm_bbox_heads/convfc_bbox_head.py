@@ -22,7 +22,7 @@ class FVLMConvFCBBoxHead(ConvFCBBoxHead):
                  clip_temp=50.0,
                  cls_temp=50.0,
                  learn_cls_temp=True,
-                 cls_embeddings_path=None, bg_embedding='zero',
+                 cls_embeddings_path=None, bg_embedding='learn',
                  *args, **kwargs):
         super(FVLMConvFCBBoxHead, self).__init__(*args, **kwargs)
         if learn_cls_temp:

@@ -9,14 +9,15 @@ from mmcv.cnn import build_norm_layer
 
 @MODELS.register_module()
 class CLIPViT(BaseModule):
-    def __init__(self, model_name, cache_dir, out_indices=[3, 5, 7, 11],
+    def __init__(self, model_name, cache_dir, pretrained='openai',
+                 out_indices=[3, 5, 7, 11],
                  roi_extractor=None,
                  norm_cfg=None):
         super().__init__()
         self.vit_layers = out_indices
         self.model_name = model_name
         clip_model = open_clip.create_model(model_name,
-                                            pretrained="openai",
+                                            pretrained=pretrained,
                                             cache_dir=cache_dir)
         self.embed_dim = embed_dim = clip_model.embed_dim  # output dim
         self.width = width = clip_model.visual.transformer.width
@@ -54,8 +55,6 @@ class CLIPViT(BaseModule):
     def forward(self, x):
         visual = self.visual
         bs, _, h, w = x.shape
-        h = h // self.patch_size
-        w = w // self.patch_size
 
         with torch.no_grad():
             x = visual.conv1(x)  # shape = [*, width, grid, grid]

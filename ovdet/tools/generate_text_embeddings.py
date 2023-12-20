@@ -2,9 +2,8 @@
 import numpy as np
 import torch
 import torch.nn.functional as F
-import sys
 from tqdm import tqdm
-import ovdet.models.vlms.clip.clip as CLIP
+import open_clip
 
 
 def article(name):
@@ -116,7 +115,7 @@ def build_text_embedding_coco(categories, model):
                 "This is " + text if text.startswith("a") or text.startswith("the") else text
                 for text in texts
             ]
-            texts = CLIP.tokenize(texts).cuda()  # tokenize
+            texts = open_clip.tokenize(texts).cuda()  # tokenize
             text_embeddings = model.encode_text(texts)
             text_attnfeatures, _, _ = model.encode_text_endk(texts, stepk=12, normalize=True)
 
@@ -134,7 +133,7 @@ def build_text_embedding_coco(categories, model):
     return zeroshot_weights, attn12_weights
 
 
-def build_text_embedding_lvis(categories, model):
+def build_text_embedding_lvis(categories, model, tokenizer):
     templates = multiple_templates
 
     with torch.no_grad():
@@ -150,7 +149,7 @@ def build_text_embedding_lvis(categories, model):
                 "This is " + text if text.startswith("a") or text.startswith("the") else text
                 for text in texts
             ]
-            texts = CLIP.tokenize(texts).cuda()  # tokenize
+            texts = tokenizer(texts).cuda()  # tokenize
 
             text_embeddings = model.encode_text(texts)
             text_embeddings /= text_embeddings.norm(dim=-1, keepdim=True)
@@ -175,17 +174,18 @@ import json
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_version', default='ViT-B/32')
-    parser.add_argument('--ann', default='data/lvis_v1/objects365_reorder_val.json')
-    parser.add_argument('--out_path', default='data/metadata/objects365v1_clip_hand_craft.npy')
-    parser.add_argument('--dataset', default='lvis')
+    parser.add_argument('--model_version', default='ViT-B-16')
+    parser.add_argument('--ann', default='data/coco/annotations/instances_val2017.json')
+    parser.add_argument('--out_path', default='metadata/coco_detection_openai_vitb16.npy')
+    parser.add_argument('--pretrained', default='openai')
+    parser.add_argument('--cache_dir', default='checkpoints')
 
     args = parser.parse_args()
 
-    model, _ = CLIP.load(name=args.model_version,
-                         use_image_encoder=False,
-                         download_root='checkpoints')
-    model.init_weights()
+    model = open_clip.create_model(
+        args.model_version, pretrained=args.pretrained, cache_dir=args.cache_dir
+    )
+    tokenizer = open_clip.get_tokenizer(args.model_version)
     model.cuda()
 
     print('Loading', args.ann)
@@ -193,14 +193,5 @@ if __name__ == '__main__':
     cat_names = [x['name'] for x in \
                  sorted(data['categories'], key=lambda x: x['id'])]
     out_path = args.out_path
-    if args.dataset == 'lvis':
-        text_embeddings = build_text_embedding_lvis(cat_names, model)
-        np.save(out_path, text_embeddings.cpu().numpy())
-    elif args.dataset == 'objects365':
-        text_embeddings = build_text_embedding_lvis(cat_names, model)
-        np.save(out_path, text_embeddings.cpu().numpy())
-    else:
-        clip_embeddings, attn12_embeddings = build_text_embedding_coco(cat_names, model)
-
-        np.save(out_path, clip_embeddings.cpu().numpy())
-        np.save(out_path.replace('.npy', '_attn12.npy'), attn12_embeddings.cpu().numpy())
+    text_embeddings = build_text_embedding_lvis(cat_names, model, tokenizer)
+    np.save(out_path, text_embeddings.cpu().numpy())
