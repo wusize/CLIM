@@ -37,13 +37,15 @@ class FVLMConvFCBBoxHead(ConvFCBBoxHead):
         assert not self.custom_cls_channels
 
         cls_embeddings = torch.from_numpy(np.load(cls_embeddings_path)).float()
-        assert self.num_classes == cls_embeddings.shape[0]
-        self.register_buffer('cls_embeddings', cls_embeddings)
         self.learn_bg = False
         if bg_embedding == 'zero':
+            assert self.num_classes == cls_embeddings.shape[0]
+            self.register_buffer('cls_embeddings', cls_embeddings)
             self.register_buffer('bg_embedding',
                                  torch.zeros_like(cls_embeddings[:1]))
         elif bg_embedding == 'learn':
+            assert self.num_classes == cls_embeddings.shape[0]
+            self.register_buffer('cls_embeddings', cls_embeddings)
             self.bg_embedding = nn.Linear(1, cls_embeddings.shape[1])
             self.init_cfg += [
                 dict(
@@ -51,6 +53,10 @@ class FVLMConvFCBBoxHead(ConvFCBBoxHead):
                     override=dict(name='bg_embedding')),
             ]
             self.learn_bg = True
+        elif bg_embedding == 'clip':
+            assert (self.num_classes + 1) == cls_embeddings.shape[0]
+            self.register_buffer('cls_embeddings', cls_embeddings[:-1])
+            self.register_buffer('bg_embedding', cls_embeddings[-1:])
         else:
             raise ValueError(f"{bg_embedding} not supported.")
 
