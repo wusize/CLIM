@@ -86,7 +86,7 @@ param_scheduler = [
         begin=0,
         end=2880,
         by_epoch=False,
-        milestones=[2880, ],
+        milestones=[2304, 2592, 2736],
         gamma=0.1)
 ]
 # optimizer
