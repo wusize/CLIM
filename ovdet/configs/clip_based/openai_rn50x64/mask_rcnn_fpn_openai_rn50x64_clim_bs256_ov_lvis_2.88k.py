@@ -42,8 +42,8 @@ model = dict(
             reg_class_agnostic=True,
             num_classes=1203,
             norm_cfg=norm_cfg,
-            alpha=0.35,
-            beta=0.65,
+            alpha=0.1,
+            beta=0.6,
             clip_temp=50.0,
             cls_temp=50.0,
             learn_cls_temp=True,
@@ -72,7 +72,7 @@ default_hooks = dict(
 )
 
 # training schedule for 2.88k
-train_cfg = dict(type='IterBasedTrainLoop', max_iters=2880, val_interval=2880//2)
+train_cfg = dict(type='IterBasedTrainLoop', max_iters=2880, val_interval=2880)
 val_cfg = dict(type='ValLoop')
 test_cfg = dict(type='TestLoop')
 

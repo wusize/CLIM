@@ -4,7 +4,7 @@ _base_ = 'mmdet::_base_/datasets/coco_detection.py'
 data_root = 'data/coco/'
 image_size = (640, 640)
 
-# backend_args = None
+# image_backend_args = None
 image_backend_args = dict(
     backend='petrel',
     path_mapping=dict({

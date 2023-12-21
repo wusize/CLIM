@@ -2,7 +2,7 @@
 _base_ = 'mmdet::_base_/datasets/lvis_v1_instance.py'
 image_size = (1024, 1024)
 
-# backend_args = None
+# image_backend_args = None
 image_backend_args = dict(
     backend='petrel',
     path_mapping=dict({
