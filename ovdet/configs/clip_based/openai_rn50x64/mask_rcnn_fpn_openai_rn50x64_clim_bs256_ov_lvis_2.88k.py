@@ -60,6 +60,7 @@ model = dict(
             norm_cfg=norm_cfg, class_agnostic=True, num_classes=1203)
     ),
     test_cfg=dict(
+        rpn=dict(nms_pre=2000),
         rcnn=dict(
             score_thr=0.0001,
             nms=dict(type='nms', iou_threshold=0.5),

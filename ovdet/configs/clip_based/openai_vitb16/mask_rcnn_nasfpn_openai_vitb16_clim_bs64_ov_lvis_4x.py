@@ -1,6 +1,6 @@
 _base_ = ['mmdet::_base_/models/mask-rcnn_r50_fpn.py',
           'mmdet::_base_/default_runtime.py',
-          '../../_base_/datasets/lvis_v1_ovd_base_lsj.py']
+          '../../_base_/datasets/lvis_v1_ovd_base_lsj_640.py']
 find_unused_parameters = True
 class_weight = 'data/metadata/lvis_v1_train_cat_norare_info.json'
 norm_cfg = dict(type='SyncBN', requires_grad=True)
@@ -27,15 +27,10 @@ model = dict(
     neck=dict(
         type='NASFPN',
         stack_times=7,
-        start_level=1,
         in_channels=[768, 768, 768, 768],
         norm_cfg=norm_cfg
     ),
-    rpn_head=dict(
-        type='CustomRPNHead',
-        num_convs=2,
-        norm_cfg=norm_cfg
-    ),
+    rpn_head=dict(num_convs=2),
     roi_head=dict(
         type='FVLMStandardRoIHead',
         bbox_head=dict(
@@ -47,8 +42,8 @@ model = dict(
             reg_class_agnostic=True,
             num_classes=1203,
             norm_cfg=norm_cfg,
-            alpha=0.1,
-            beta=0.6,
+            alpha=0.35,
+            beta=0.65,
             clip_temp=50.0,
             cls_temp=50.0,
             learn_cls_temp=True,
@@ -65,6 +60,7 @@ model = dict(
             norm_cfg=norm_cfg, class_agnostic=True, num_classes=1203)
     ),
     test_cfg=dict(
+        rpn=dict(nms_pre=2000),
         rcnn=dict(
             score_thr=0.0001,
             nms=dict(type='nms', iou_threshold=0.5),
@@ -97,16 +93,17 @@ param_scheduler = [
 # optimizer
 optim_wrapper = dict(
     type='AmpOptimWrapper',
-    optimizer=dict(type='AdamW', lr=0.0001, betas=(0.9, 0.999), weight_decay=0.1),
-    clip_grad=dict(max_norm=1.0, norm_type=2),
+    optimizer=dict(
+        type='AdamW', lr=0.0004, betas=(0.9, 0.999), weight_decay=0.05),
+    clip_grad=dict(max_norm=35, norm_type=2),
 )
 
 # Default setting for scaling LR automatically
 #   - `enable` means enable scaling LR automatically
 #       or not by default.
-#   - `base_batch_size` = (8 GPUs) x (2 samples per GPU).
-auto_scale_lr = dict(enable=True, base_batch_size=64)
+#   - `base_batch_size` = (8 GPUs) x (16 samples per GPU).
+auto_scale_lr = dict(enable=True, base_batch_size=8*16)
 train_dataloader = dict(
-    batch_size=8,
+    batch_size=16,
     num_workers=4
 )
