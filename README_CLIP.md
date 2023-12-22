@@ -72,4 +72,4 @@ We also provide the checkpoints of the models trained by CLIM in
 ### Open-Vocabulary Object Detection
 
 To build open-vocabulary detectors using the models trained by CLIM, 
-please refer to the instructions in this [README](ovdet/configs/detic/README.md).
+please refer to the instructions in this [README](ovdet/configs/clip_based/README.md).
