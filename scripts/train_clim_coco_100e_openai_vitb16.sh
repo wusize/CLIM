@@ -1,4 +1,4 @@
-torchrun --nproc_per_node 8 -m training.main --batch-size=32 --lr=1e-5 --wd=0.1 --epochs=100 --workers=4 \
+torchrun --nproc_per_node 4 -m training.main --batch-size=32 --lr=1e-5 --wd=0.1 --epochs=100 --workers=4 \
 --model ViT-B-16 --pretrained openai --warmup 1000  --zeroshot-frequency 10 --dataset-type coco_caption  \
 --test-type coco_panoptic --train-data data/coco/wusize/captions_train2017_tags_allcaps.json \
 --val-data data/coco/annotations/panoptic_val2017.json \

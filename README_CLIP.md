@@ -1,5 +1,6 @@
 # Application to CLIP
 
+## Installation
 The code for applying CLIM to CLIP model is adapted from [OpenCLIP-v2.16.0](https://github.com/mlfoundations/open_clip/tree/v2.16.0). Run the
 following command to install the package
 
@@ -44,13 +45,13 @@ following the COCO format. The json file `cc3m_captions_train.json` might look l
 
 ## Run
 ### Original Models 
-To run CLIPSelf, first obtain the original models using these 
+To run CLIM, first obtain the original models using these 
 [links](https://github.com/openai/CLIP/blob/a1d071733d7111c9c014f024669f959182114e33/clip/clip.py#L30), 
 and put them under 
 `checkpoints/` like the following:
 
 ```text
-CLIPSelf/
+CLIM/
 ├── checkpoints
     ├── ViT-B-16.pt
     ├── RN50x64.pt
@@ -64,15 +65,10 @@ For example, if we want to refine ViT-B/16 on the COCO dataset, simply run:
 ```bash
 bash scripts/train_clim_coco_100e_openai_vitb16.sh
 ```
-We also provide the checkpoints of the models trained by CLIM in [Drive](https://drive.google.com/drive/folders/1APWIE7M5zcymbjh5OONqXdBOxFy3Ghwm?usp=sharing).
-
+We also provide the checkpoints of the models trained by CLIM in
+[Google Drive](https://drive.google.com/drive/folders/1v91n5SSXSOtgo2SlEESj_Gquwh9KMj3J?usp=sharing).
 
 ### Open-Vocabulary Object Detection
 
 To build open-vocabulary detectors using the models trained by CLIM, 
 please refer to the instructions in this [README](ovdet/configs/detic/README.md).
-
-
-
-### TODO
-- [ ] Apply CLIM to models in [EVA-CLIP]((https://github.com/baaivision/EVA/tree/master/EVA-CLIP)) to obtain stronger backbones for open-vocabulary detection.
