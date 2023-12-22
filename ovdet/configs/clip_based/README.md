@@ -31,7 +31,7 @@ We also provide the following checkpoints of the trained detectors in
 [Google Drive](https://drive.google.com/drive/folders/1v91n5SSXSOtgo2SlEESj_Gquwh9KMj3J?usp=sharing). Download and 
 put them under `CLIM/ovdet/checkpoints`. 
 
-NOte: the released code for the ViT-based detector achieves better results than we have initially reported 
+NOte: the released code for the ViT-based detector achieves better results than that we have initially reported 
 in the paper.
 
 |  OV-COCO  | Backbone  | Novel AP50 |                                    Config                                     | Download  |
@@ -45,8 +45,10 @@ in the paper.
 |:---------:|:--------:|:--------:|:---------------------------------------------------------------------------------:|:---------:|
 |   Paper   | ViT-B/16 |   20.8   |                                         -                                         |     -     |
 | This Repo | ViT-B/16 |   24.3   |  [config](openai_vitb16/mask_rcnn_nasfpn_openai_vitb16_clim_bs64_ov_lvis_4x.py)   | [model](https://drive.google.com/file/d/1rLEp2cL8rH0rvFduxaOG6m_Z9-s_qMwQ/view?usp=sharing) |
-|   Paper   | RN50x64  |   32.3   |                                         -                                         |     -     |
-| This Repo | RN50x64  |   32.3   | [config](openai_rn50x64/mask_rcnn_fpn_openai_rn50x64_clim_bs256_ov_lvis_2.88k.py) | [model]() |
+
+[//]: # (|   Paper   | RN50x64  |   32.3   |                                         -                                         |     -     |)
+
+[//]: # (| This Repo | RN50x64  |   32.3   | [config]&#40;openai_rn50x64/mask_rcnn_fpn_openai_rn50x64_clim_bs256_ov_lvis_2.88k.py&#41; | [model]&#40;&#41; |)
 
 
 
