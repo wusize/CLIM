@@ -2,14 +2,14 @@
 _base_ = 'mmdet::_base_/datasets/lvis_v1_instance.py'
 image_size = (640, 640)
 
-# image_backend_args = None
-image_backend_args = dict(
-    backend='petrel',
-    path_mapping=dict({
-        'data/lvis_v1/train2017': 's3://openmmlab/datasets/detection/coco/train2017',
-        'data/lvis_v1/val2017': 's3://openmmlab/datasets/detection/coco/val2017'
-    })
-)
+image_backend_args = None
+# image_backend_args = dict(
+#     backend='petrel',
+#     path_mapping=dict({
+#         'data/lvis_v1/train2017': 's3://openmmlab/datasets/detection/coco/train2017',
+#         'data/lvis_v1/val2017': 's3://openmmlab/datasets/detection/coco/val2017'
+#     })
+# )
 
 train_pipeline = [
     dict(type='LoadImageFromFile', backend_args=image_backend_args, to_float32=True),

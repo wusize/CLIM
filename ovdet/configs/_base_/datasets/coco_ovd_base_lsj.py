@@ -4,12 +4,12 @@ _base_ = 'mmdet::_base_/datasets/coco_detection.py'
 data_root = 'data/coco/'
 image_size = (640, 640)
 
-# image_backend_args = None
-image_backend_args = dict(
-    backend='petrel',
-    path_mapping=dict({
-        'data/coco': 's3://openmmlab/datasets/detection/coco'
-    }))
+image_backend_args = None
+# image_backend_args = dict(
+#     backend='petrel',
+#     path_mapping=dict({
+#         'data/coco': 's3://openmmlab/datasets/detection/coco'
+#     }))
 train_pipeline = [
     dict(type="LoadImageFromFile", backend_args=image_backend_args, to_float32=True),
     dict(type="LoadAnnotations", with_bbox=True, with_mask=False),
