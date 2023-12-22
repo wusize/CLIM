@@ -1,7 +1,8 @@
 # CLIM: Contrastive Language-Image Mosaic for Region Representation
 ## Introduction
 
-This is an official release of the paper **CLIM: Contrastive Language-Image Mosaic for Region Representation**.
+This is an official release of the paper 
+**CLIM: Contrastive Language-Image Mosaic for Region Representation**.
 
 > [**CLIM: Contrastive Language-Image Mosaic for Region Representation**](https://arxiv.org/abs/2312.11376),            
 > Size Wu, Wenwei Zhang, Lumin Xu, Sheng Jin, Wentao Liu, Chen Change Loy            
@@ -10,10 +11,10 @@ This is an official release of the paper **CLIM: Contrastive Language-Image Mosa
 
 ## Application to CLIP
 
-Refer to the instructions in this [README](README_CLIP.md).
+Please refer to the instructions in this [README](README_CLIP.md).
 
 ## Application to Detic
-Refer to the instructions in this [README](ovdet/configs/detic/README.md).
+Please refer to the instructions in this [README](ovdet/configs/detic/README.md).
 
 ## License
 This project is licensed under [NTU S-Lab License 1.0](LICENSE).
@@ -32,5 +33,4 @@ This project is licensed under [NTU S-Lab License 1.0](LICENSE).
 
 ## Acknowledgement
 
-We thank [OpenCLIP](https://github.com/mlfoundations/open_clip/tree/v2.16.0),
-[MMDetection](https://github.com/open-mmlab/mmdetection) for their valuable code bases.
+We thank [OpenCLIP](https://github.com/mlfoundations/open_clip/tree/v2.16.0) and [MMDetection](https://github.com/open-mmlab/mmdetection) for their valuable code bases.

@@ -5,6 +5,7 @@ The code for applying CLIM to CLIP model is adapted from [OpenCLIP-v2.16.0](http
 following command to install the package
 
 ```bash
+cd CLIM/
 pip install -e . -v
 ```
 

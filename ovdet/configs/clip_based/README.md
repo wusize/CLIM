@@ -1,5 +1,5 @@
 ## Installation
-First please make sure modified OpenCLIP has been installed as follows
+First please make sure the modified OpenCLIP has been installed as follows
 ```
 cd CLIM
 pip install -e . -v
