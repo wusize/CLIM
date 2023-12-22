@@ -31,7 +31,7 @@ We also provide the following checkpoints of the trained detectors in
 [Google Drive](https://drive.google.com/drive/folders/1v91n5SSXSOtgo2SlEESj_Gquwh9KMj3J?usp=sharing). Download and 
 put them under `CLIM/ovdet/checkpoints`. 
 
-NOte: the released code for the ViT-based detector achieves better results than that we have initially reported 
+Note: the released code for the ViT-based detector achieves better results than that we have initially reported 
 in the paper.
 
 |  OV-COCO  | Backbone  | Novel AP50 |                                    Config                                     | Download  |
