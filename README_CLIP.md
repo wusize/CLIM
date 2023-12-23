@@ -60,9 +60,7 @@ CLIM/
 ```
 
 ### Applying CLIM
-We provide the scripts to run CLIM under this [directory](scripts).
-
-For example, if we want to refine ViT-B/16 on the COCO dataset, simply run:
+We provide the [scripts](scripts) to run CLIM. For example, if we want to refine ViT-B/16 on the COCO dataset, simply run:
 ```bash
 bash scripts/train_clim_coco_100e_openai_vitb16.sh
 ```

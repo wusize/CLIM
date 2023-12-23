@@ -39,23 +39,14 @@ in the paper.
 |   Paper   | ViT-B/16 |    25.7    |                                       -                                       |     -     |
 | This Repo | ViT-B/16 |    29.7    | [config](openai_vitb16/faster_rcnn_fpn_openai_vitb16_clim_bs64_ov_coco_3e.py) | [model](https://drive.google.com/file/d/1lOKpb2EiC2rcgsX9GeXUhVN1QnyUTZSM/view?usp=sharing) |
 
-
-
 |  OV-LVIS  | Backbone | Mask APr |                                      Config                                       | Download  |
 |:---------:|:--------:|:--------:|:---------------------------------------------------------------------------------:|:---------:|
 |   Paper   | ViT-B/16 |   20.8   |                                         -                                         |     -     |
 | This Repo | ViT-B/16 |   24.3   |  [config](openai_vitb16/mask_rcnn_nasfpn_openai_vitb16_clim_bs64_ov_lvis_4x.py)   | [model](https://drive.google.com/file/d/1rLEp2cL8rH0rvFduxaOG6m_Z9-s_qMwQ/view?usp=sharing) |
+|   Paper   | RN50x64  |   32.3   |                                         -                                         |     -     |
+| This Repo | RN50x64  |   32.4   | [config](openai_rn50x64/mask_rcnn_fpn_openai_rn50x64_clim_bs256_ov_lvis_2.88k.py) | [model](https://drive.google.com/file/d/1LjJo4p3vaLKoy1Vp08kt_Xg08dLdgbo5/view?usp=sharing) |
 
-[//]: # (|   Paper   | RN50x64  |   32.3   |                                         -                                         |     -     |)
-
-[//]: # (| This Repo | RN50x64  |   32.3   | [config]&#40;openai_rn50x64/mask_rcnn_fpn_openai_rn50x64_clim_bs256_ov_lvis_2.88k.py&#41; | [model]&#40;&#41; |)
-
-
-
-
-
-Take ViT-B/16 on OV-COCO as example,  run the following to test the detector
-
+Take ViT-B/16 on OV-COCO as example,  run the following script to test the detector
 
 ```
 cd CLIM/ovdet

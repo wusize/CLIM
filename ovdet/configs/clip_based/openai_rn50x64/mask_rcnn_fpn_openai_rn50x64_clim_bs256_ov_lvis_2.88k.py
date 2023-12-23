@@ -80,7 +80,7 @@ test_cfg = dict(type='TestLoop')
 # learning rate
 param_scheduler = [
     dict(
-        type='LinearLR', start_factor=0.009, by_epoch=False, begin=0, end=1000),
+        type='LinearLR', start_factor=0.009, by_epoch=False, begin=0, end=250),
     dict(
         type='MultiStepLR',
         begin=0,
@@ -93,7 +93,7 @@ param_scheduler = [
 optim_wrapper = dict(
     type='AmpOptimWrapper',
     optimizer=dict(type='SGD', lr=0.36, momentum=0.9, weight_decay=0.0001),
-    # clip_grad=dict(max_norm=35, norm_type=2),
+    clip_grad=dict(max_norm=1.0, norm_type=2),
 )
 
 # Default setting for scaling LR automatically
