@@ -23,10 +23,10 @@ This project is licensed under [NTU S-Lab License 1.0](LICENSE).
 
 ```bibtex
 @article{wu2023clim,
-    title={CLIM: Contrastive Language-Image Mosaic for Region Representation},
-    author={Size Wu and Wenwei Zhang and Lumin Xu and Sheng Jin and Wentao Liu and Chen Change Loy},
-    journal={arXiv preprint arXiv:2312.11376},
-    year={2023}
+  title={CLIM: Contrastive Language-Image Mosaic for Region Representation},
+  author={Wu, Size and Zhang, Wenwei and Xu, Lumin and Jin, Sheng and Liu, Wentao and Loy, Chen Change},
+  journal={arXiv preprint arXiv:2312.11376},
+  year={2023}
 }
 ```
 
