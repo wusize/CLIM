@@ -1,5 +1,5 @@
 _base_ = './detic_centernet2_r50_fpn_4x_lvis_boxsup.py'
-branch_field = ['det_batch', 'cap_batch']
+branch_field = ['det_batch', 'cap_batch', 'clim_batch']
 
 image_size_det = (640, 640)
 image_size_cap = (320, 320)
@@ -64,6 +64,39 @@ train_pipeline_cap = [
          )
 ]
 
+train_pipeline_clim = [
+    dict(type='LoadImageFromFile', backend_args=backend_args_cap),
+    dict(type='LoadAnnotations', with_bbox=True),
+    dict(
+        type='RandomResize',
+        scale=image_size_cap,
+        ratio_range=(0.5, 1.5),
+        keep_ratio=True),
+    dict(
+        type='RandomCrop',
+        crop_type='absolute_range',
+        crop_size=image_size_cap,
+        recompute_bbox=True,
+        allow_negative_crop=True),
+    dict(type='RandomFlip', prob=0.5),
+    dict(type='MultiChoicesMosaic',
+         choices=[(2, 2), (3, 3), (4, 4)],
+         max_cached_images=1024,
+         img_scale=image_size_cap,
+         pad_val=114.0,
+         prob=1.0, center_ratio_range=(1.0, 1.0)),
+    dict(type='Resize', scale=image_size_det, keep_ratio=True),   # resize to a fixed value
+    dict(type='MultiBranch',
+         branch_field=branch_field,
+         clim_batch=dict(type='PackDetInputs',
+                           meta_keys=['img_id', 'img_path', 'ori_shape',
+                                      'img_shape', 'scale_factor',
+                                      'flip', 'flip_direction', 'captions',
+                                      'tags', 'image_ids'])
+         )
+]
+
+
 dataset_det = dict(
     type='ClassBalancedDataset',
     oversample_thr=1e-3,
@@ -76,7 +109,7 @@ dataset_det = dict(
         pipeline=train_pipeline_det,
         backend_args=None))
 
-dataset_cc3m = dict(
+dataset_cap = dict(
     type='CC3MLVISV1Dataset',
     data_root='data/cc3m',
     ann_file='annotations/cc3m_train_processed_lvis_v1.json',
@@ -84,7 +117,16 @@ dataset_cc3m = dict(
     pipeline=train_pipeline_cap,
     backend_args=None)
 
-batch_split = [8, 32]
+
+dataset_clim = dict(
+    type='CC3MLVISV1Dataset',
+    data_root='data/cc3m',
+    ann_file='annotations/cc3m_train_processed_lvis_v1.json',
+    data_prefix=dict(img='images/'),
+    pipeline=train_pipeline_clim,
+    backend_args=None)
+
+batch_split = [8, 16, 16]
 train_dataloader = dict(
     batch_size=sum(batch_split),
     num_workers=4,
@@ -96,7 +138,7 @@ train_dataloader = dict(
     dataset=dict(
         _delete_=True,
         type='ConcatDataset',
-        datasets=[dataset_det, dataset_cc3m])
+        datasets=[dataset_det, dataset_cap, dataset_clim])
 )
 
 max_iter = 45000
@@ -158,18 +200,19 @@ model = dict(
     ),
     backbone=dict(
         init_cfg=None),   # do not need init, we will load from pretrained model
-    batch2ovd=dict(cap_batch=['detic_tags', 'detic_caption']),
+    batch2ovd=dict(cap_batch=['detic_tags', 'detic_caption'],
+                   clim_batch=['detic_tags', 'detic_caption']),
     roi_head=dict(
         type='DeticRoIHead',
         clip_cfg=clip_cfg,
-        ovd_cfg=dict(detic_tags=dict(type='DeticTags',
+        ovd_cfg=dict(detic_tags=dict(type='DeticTagsWithComposition',
                                      tag_embeddings_path='data/metadata/lvis_v1_clip_a+cname.npy',
                                      sampling_cfg=dict(topk=128, iof_thr=0.3),
                                      base_batch_size=None,
                                      bce_bias=None, norm_temp=50.0, tag_weight=0.1,
                                      tag_neg_weight=1.0
                                      ),
-                     detic_caption=dict(type='DeticCaption',
+                     detic_caption=dict(type='DeticCaptionWithComposition',
                                         base_batch_size=32,
                                         bce_bias=None, norm_temp=50.0, caption_weight=1.0,
                                         max_caps=1,
