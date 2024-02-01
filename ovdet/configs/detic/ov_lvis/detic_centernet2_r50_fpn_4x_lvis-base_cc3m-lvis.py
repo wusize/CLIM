@@ -160,7 +160,7 @@ model = dict(
         init_cfg=None),   # do not need init, we will load from pretrained model
     batch2ovd=dict(cls_batch=['detic_tags', 'detic_caption']),
     roi_head=dict(
-        type='CustomDeticRoIHead',
+        type='DeticRoIHead',
         clip_cfg=clip_cfg,
         ovd_cfg=dict(detic_tags=dict(type='DeticTags',
                                      tag_embeddings_path='data/metadata/lvis_v1_clip_a+cname.npy',
