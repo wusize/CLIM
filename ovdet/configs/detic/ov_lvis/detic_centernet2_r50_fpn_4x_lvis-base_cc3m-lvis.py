@@ -145,7 +145,7 @@ clip_cfg = dict(          # ViT-B/32
 )
 
 model = dict(
-    type='CustomDetic',
+    type='Detic',
     data_preprocessor=dict(
         type='MultiBranchDataPreprocessor',
         _delete_=True,
