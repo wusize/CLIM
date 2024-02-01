@@ -1,1 +1,2 @@
 from .cross_entropy_loss import CustomCrossEntropyLoss
+from .heatmap_focal_loss import HeatmapFocalLoss
