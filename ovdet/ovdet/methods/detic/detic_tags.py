@@ -184,10 +184,14 @@ class DeticTagsWithComposition(DeticTags):
                 x1y1 = max_size_boxes_.view(-1, 2).max(dim=0).values
 
                 added_box = torch.cat([x0y0, x1y1])
-                added_proposal = InstanceData(bboxes=added_box[None],
-                                              labels=torch.tensor([0], dtype=torch.int64,
-                                                                  device=image_boxes.device),
-                                              scores=torch.tensor([1], device=image_boxes.device))
+                data_dict = dict(bboxes=added_box[None])
+                if hasattr(proposals, "labels"):
+                    data_dict.update(labels=torch.tensor([0], dtype=torch.int64,
+                                                         device=image_boxes.device))
+                if hasattr(proposals, "scores"):
+                    data_dict.update(scores=torch.tensor([1], device=image_boxes.device))
+
+                added_proposal = InstanceData(**data_dict)
                 added_proposals.append(added_proposal)
                 image_ids.append([image_ids[pseudo_region_idx] for pseudo_region_idx in sampled_group])
                 added_tag = []
