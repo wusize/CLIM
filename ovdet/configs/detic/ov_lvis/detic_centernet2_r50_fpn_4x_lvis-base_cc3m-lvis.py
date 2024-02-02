@@ -170,12 +170,12 @@ model = dict(
                                      tag_neg_weight=1.0
                                      ),
                      detic_caption=dict(type='DeticCaption',
-                                        base_batch_size=32,
+                                        base_batch_size=None,
                                         bce_bias=None, norm_temp=50.0, caption_weight=1.0,
                                         max_caps=1,
-                                        queue_cfg=dict(lengths=[1024], id_length=16,
+                                        queue_cfg=dict(lengths=[256], id_length=16,
                                                        names=['clip_caption_features']),
-                                        cap_neg_weight=1/32),
+                                        cap_neg_weight=1/8),
                      ),
     ),
 )
