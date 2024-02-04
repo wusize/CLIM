@@ -53,6 +53,7 @@ class DeticCaption(nn.Module):
         return caption_features
 
     def get_losses(self, region_embeddings, sampling_results, clip_model,
+                   update_queue=True,
                    *args, **kwargs):
         region_embeddings = F.normalize(region_embeddings, dim=-1)
         device = region_embeddings.device
@@ -91,9 +92,10 @@ class DeticCaption(nn.Module):
         loss_caption *= torch.where(label_matrix_0 > 0.0, pos_weights, neg_weights)
 
         loss_caption = loss_caption.sum(-1).mean()
-        clip_caption_features_update = torch.cat([clip_caption_features, caption_image_ids], dim=-1)
-        queue_update = dict(clip_caption_features=clip_caption_features_update)
-        self.queues.dequeue_and_enqueue(queue_update)
+        if update_queue:
+            clip_caption_features_update = torch.cat([clip_caption_features, caption_image_ids], dim=-1)
+            queue_update = dict(clip_caption_features=clip_caption_features_update)
+            self.queues.dequeue_and_enqueue(queue_update)
         if self.base_batch_size is not None:
             loss_caption *= (label_matrix_0.shape[0] / self.base_batch_size)
         losses = dict(loss_caption=loss_caption * self.caption_weight)

@@ -7,8 +7,8 @@ Please refer to this [README](../../DATA.md).
 ### Obtain CLIP Checkpoints
 We use CLIP's text encoder (ViT-B/32) for Detic. Obtain the state_dict 
 of the model from [GoogleDrive](https://drive.google.com/file/d/1ilxBhjb3JXNDar8lKRQ9GA4hTmjxADfu/view?usp=sharing) and put it under `checkpoints`.
-
-### Training
+### OV-COCO
+#### Training
 1. To pre-train the detector only on the detection data of base categories, run
 
 ```
@@ -39,7 +39,7 @@ bash tools/dist_train.sh \
 ```
 
 
-### Testing
+#### Testing
 We have provided the following checkpoints in [Google Drive](https://drive.google.com/drive/folders/1f-AkMXFgDIfRMezUbVSc_BC0tr5AjRJ4?usp=sharing).
 
 
@@ -60,4 +60,36 @@ bash tools/dist_test.sh \
      configs/detic/ov_coco/detic_w_tags_clim_faster_rcnn_r50_caffe_c4_45k.py \
      checkpoints/detic_coco_cap_w_tags_clim.pth \
      8 --work-dir your/output/directory/detic_coco_cap_w_tags_clim
+```
+
+### OV-LVIS
+
+#### Training
+First obtain the 
+[checkpoint](https://download.openmmlab.com/mmdetection/v3.0/detic/detic_centernet2_r50_fpn_4x_lvis-base_boxsup/detic_centernet2_r50_fpn_4x_lvis-base_boxsup_20230921_180638-c1685ee2.pth) 
+trained on base categories and put it under `checkpoints/`. Then run
+
+```
+cd CLIM/ovdet
+bash tools/dist_train.sh \
+     configs/detic/ov_lvis/detic_clim_centernet2_r50_fpn_4x_lvis-base_cc3m-lvis.py 8 \
+     --work-dir your/output/directory/detic_lvis_cap_w_tags_clim
+```
+
+#### Testing
+We have provided the following checkpoint.
+
+| OV-LVIS |    Losses     | mask APr |                                  Config                                   |  Download   |
+|:-------:|:-------------:|:--------:|:-------------------------------------------------------------------------:|:-----------:|
+|    1    | Caption & Tag |   21.8   | [config](ov_lvis/detic_clim_centernet2_r50_fpn_4x_lvis-base_cc3m-lvis.py) |  [model](https://drive.google.com/drive/folders/1Y_3T9jo86rJGc6AnjOoXzrNYbx63pBj-?usp=sharing)  |
+
+
+For example, to evaluate the model trained on LVIS-base and CC3M, run
+
+```
+cd CLIM/ovdet
+bash tools/dist_test.sh \
+     configs/detic/ov_lvis/detic_clim_centernet2_r50_fpn_4x_lvis-base_cc3m-lvis.py \
+     patch/to/the/checkpoint.pth \
+     8 --work-dir your/output/directory/detic_lvis_cap_w_tags_clim
 ```
