@@ -330,7 +330,7 @@ train_dataloader = dict(
         oversample_thr=1e-3,
         dataset=dict(
             type='LVISV1Dataset',
-            data_root='data/lvis/',
+            data_root='data/lvis_v1/',
             ann_file='annotations/lvis_v1_train_norare.json',
             data_prefix=dict(img=''),
             filter_cfg=dict(filter_empty_gt=True, min_size=32),
@@ -346,7 +346,7 @@ val_dataloader = dict(
     sampler=dict(type='DefaultSampler', shuffle=False),
     dataset=dict(
         type='LVISV1Dataset',
-        data_root='data/lvis/',
+        data_root='data/lvis_v1/',
         ann_file='annotations/lvis_v1_val.json',
         data_prefix=dict(img=''),
         pipeline=val_pipeline,
@@ -361,7 +361,7 @@ test_dataloader = val_dataloader
 #     sampler=dict(type='DefaultSampler', shuffle=False),
 #     dataset=dict(
 #         type='LVISV1Dataset',
-#         data_root='data/lvis/',
+#         data_root='data/lvis_v1/',
 #         ann_file='annotations/lvis_v1_val.json',
 #         data_prefix=dict(img=''),
 #         pipeline=test_pipeline,
@@ -369,7 +369,7 @@ test_dataloader = val_dataloader
 
 val_evaluator = dict(
     type='LVISMetric',
-    ann_file='data/lvis/annotations/lvis_v1_val.json',
+    ann_file='data/lvis_v1/annotations/lvis_v1_val.json',
     metric=['bbox', 'segm'])
 test_evaluator = val_evaluator
 

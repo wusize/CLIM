@@ -4,17 +4,17 @@ branch_field = ['det_batch', 'cap_batch', 'clim_batch']
 image_size_det = (640, 640)
 image_size_cap = (320, 320)
 
-# backend = 'pillow'
-backend_args_det = dict(
-    backend='petrel',
-    path_mapping=dict({
-        'data/lvis/': 's3://openmmlab/datasets/detection/lvis_v1/'
-    }))
-backend_args_cap = dict(
-    backend='petrel',
-    path_mapping=dict({
-        'data/cc3m/images/': 'BJ16:s3://wusize/cc3m_original_size/cc3m/'
-    }))
+# backend_args_det = dict(
+#     backend='petrel',
+#     path_mapping=dict({
+#         'data/lvis_v1/': 's3://openmmlab/datasets/detection/lvis_v1/'
+#     }))
+# backend_args_cap = dict(
+#     backend='petrel',
+#     path_mapping=dict({
+#         'data/cc3m/images/': 'BJ16:s3://wusize/cc3m_original_size/cc3m/'
+#     }))
+backend_args_det = backend_args_cap = None
 train_pipeline_det = [
     dict(type='LoadImageFromFile', backend_args=backend_args_det),
     dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
@@ -102,7 +102,7 @@ dataset_det = dict(
     oversample_thr=1e-3,
     dataset=dict(
         type='LVISV1Dataset',
-        data_root='data/lvis/',
+        data_root='data/lvis_v1/',
         ann_file='annotations/lvis_v1_train_norare.json',
         data_prefix=dict(img=''),
         filter_cfg=dict(filter_empty_gt=True, min_size=32),
@@ -112,7 +112,7 @@ dataset_det = dict(
 dataset_cap = dict(
     type='CC3MLVISV1Dataset',
     data_root='data/cc3m',
-    ann_file='annotations/cc3m_train_processed_lvis_v1.json',
+    ann_file='annotations/train_image_info_tags.json',
     data_prefix=dict(img='images/'),
     pipeline=train_pipeline_cap,
     backend_args=None)
@@ -121,7 +121,7 @@ dataset_cap = dict(
 dataset_clim = dict(
     type='CC3MLVISV1Dataset',
     data_root='data/cc3m',
-    ann_file='annotations/cc3m_train_processed_lvis_v1.json',
+    ann_file='annotations/train_image_info_tags.json',
     data_prefix=dict(img='images/'),
     pipeline=train_pipeline_clim,
     backend_args=None)
@@ -205,14 +205,14 @@ model = dict(
     roi_head=dict(
         type='DeticRoIHead',
         clip_cfg=clip_cfg,
-        ovd_cfg=dict(detic_tags=dict(type='DeticTagsWithComposition',
+        ovd_cfg=dict(detic_tags=dict(type='DeticTagsWithComposition', num_groups=2,
                                      tag_embeddings_path='data/metadata/lvis_v1_clip_a+cname.npy',
                                      sampling_cfg=dict(topk=128, iof_thr=0.3),
                                      base_batch_size=None,
                                      bce_bias=None, norm_temp=50.0, tag_weight=0.1,
                                      tag_neg_weight=1.0
                                      ),
-                     detic_caption=dict(type='DeticCaptionWithComposition',
+                     detic_caption=dict(type='DeticCaptionWithComposition', num_groups=2,
                                         base_batch_size=None,
                                         bce_bias=None, norm_temp=50.0, caption_weight=1.0,
                                         max_caps=1,

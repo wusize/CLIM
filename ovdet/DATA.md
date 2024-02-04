@@ -33,6 +33,11 @@ CLIM/ovdet/data
         ├── lvis_v1_train_base.json
     ├── train2017
     ├── val2017
+├── cc3m
+    ├── annotations
+        ├── train_image_info_tags.json
+    ├── images
 ```
 We provide the json file `lvis_v1_train_base.json` than only contains annotations of base categories in 
-[Google Drive](https://drive.google.com/file/d/1ahmCUXyFAQqnlMb-ZDDSQUMnIosYqhu5/view?usp=sharing).
+[Google Drive](https://drive.google.com/file/d/1ahmCUXyFAQqnlMb-ZDDSQUMnIosYqhu5/view?usp=sharing). To obtain cc3m, please refer 
+to [Detic](https://github.com/facebookresearch/Detic/blob/main/datasets/README.md).
